@@ -6,11 +6,10 @@ import json
 alchemy_url = "https://eth-mainnet.g.alchemy.com/v2/SFvU9KC-VwMQ2O84dcM-RmeQQ4hPIXj_"
 w3 = Web3(Web3.HTTPProvider(alchemy_url))
 
-if w3.isConnected():
+if w3.is_connected():
     print("Connected to Ethereum node!")
 else:
     print("Failed to connect to Ethereum node.")
-
 
 
 """
