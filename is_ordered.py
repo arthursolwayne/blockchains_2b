@@ -3,13 +3,14 @@ import random
 import json
 
 
-rpc_url = "http://localhost:8545" #Set this to a node that you can connect to (e.g. an Alchemy node)
-w3 = Web3(Web3.HTTPProvider(rpc_url))
+alchemy_url = "https://eth-mainnet.g.alchemy.com/v2/SFvU9KC-VwMQ2O84dcM-RmeQQ4hPIXj_"
+w3 = Web3(Web3.HTTPProvider(alchemy_url))
 
-if w3.is_connected():
-	pass
+if w3.isConnected():
+    print("Connected to Ethereum node!")
 else:
-	print( "Failed to connect to Ethereum node!" )
+    print("Failed to connect to Ethereum node.")
+
 
 
 """
