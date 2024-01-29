@@ -12,6 +12,7 @@ else:
     print("Failed to connect to Ethereum node.")
 
 
+
 """
 	Takes a block number
 	Returns a boolean that tells whether all the transactions in the block are ordered by priority fee
@@ -27,17 +28,20 @@ else:
 def is_ordered_block(block_num):
     block = w3.eth.get_block(block_num, full_transactions=True)
     previous_priority_fee = float('inf')
+    is_post_eip_1559 = block.get('baseFeePerGas') is not None
     for tx in block.transactions:
-        if tx['type'] == 0 or 'gasPrice' in tx:  # Pre EIP-1559 or Type 0 transactions
-            priority_fee = tx['gasPrice'] - block['baseFeePerGas']
-        elif tx['type'] == 2:  # Post EIP-1559 Type 2 transactions
+        if not is_post_eip_1559 or tx['type'] == 0:
+            priority_fee = tx['gasPrice']
+        elif tx['type'] == 2:  # For post-EIP-1559 Type 2 transactions
             priority_fee = min(tx['maxPriorityFeePerGas'], tx['maxFeePerGas'] - block['baseFeePerGas'])
         else:
+            # If transaction type is not recognized, skip this transaction
             continue
         if priority_fee > previous_priority_fee:
             return False
         previous_priority_fee = priority_fee
     return True
+
 
 """
 	This might be useful for testing
